@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'json'
 
 class Scrapper
   
@@ -26,9 +27,16 @@ class Scrapper
       
       
     end
-    puts name_mail_communes
+    return name_mail_communes
   end
   
+  def save_as_JSON
+    emails = perform
+    File.open("db/emails.JSON","w") do |f|
+      f.write(emails.to_json)
+    end
+  end
+
   def perform
     get_townhall_email("http://annuaire-des-mairies.com/val-d-oise.html")
   end
